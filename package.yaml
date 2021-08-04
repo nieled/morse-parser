@@ -21,6 +21,9 @@ description:         Please see the README on GitHub at <https://github.com/niel
 
 dependencies:
 - base >= 4.7 && < 5
+- text
+- megaparsec
+- hspec-megaparsec
 
 library:
   source-dirs: src
@@ -45,4 +48,5 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - hspec
     - morse-parser

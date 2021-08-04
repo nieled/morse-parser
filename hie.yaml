@@ -1,0 +1,13 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "morse-parser:lib"
+
+    - path: "./app/Main.hs"
+      component: "morse-parser:exe:morse-parser-exe"
+
+    - path: "./app/Paths_morse_parser.hs"
+      component: "morse-parser:exe:morse-parser-exe"
+
+    - path: "./test"
+      component: "morse-parser:test:morse-parser-test"
