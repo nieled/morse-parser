@@ -6,11 +6,14 @@ module Lib
   , decodeChar
   , pMorseChar
   , decodeParagraph
+  , charToMorse
+  , morseToChar
   , Paragraph(..)
   )
 where
 
 import           Control.Applicative  (Alternative (some, (<|>)))
+import           Data.List            (find)
 import           Data.Maybe           (catMaybes, fromMaybe)
 import           Data.Text            (Text)
 import           Data.Void            (Void)
@@ -74,6 +77,12 @@ pParagraph :: Parser Paragraph
 pParagraph = do
   r <- pMorseChar `sepBy` string " "
   return (Paragraph (catMaybes r))
+
+charToMorse :: Char -> Maybe MorseChar
+charToMorse x = fst <$> find ((==x) . snd) dict
+
+morseToChar :: MorseChar -> Maybe Char
+morseToChar x = lookup x dict
 
 decodeChar :: MorseChar -> Char
 decodeChar x = fromMaybe ' ' $ lookup x dict

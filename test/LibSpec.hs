@@ -32,10 +32,16 @@ spec = do
     context "when the input represents an incorrect Morse char" $
       it "returns a whitespace" $
         decodeChar ".-.-.-.-" `shouldBe` ' '
-  prop "decodeChar QC" $
-    property $ \a' b' c' -> do
-      let a = charGen a'
-      prs p s `shouldParse` Paragraph [".-.."]
+  prop "char -> morse -> char" $
+    forAll charGen
+    (\c -> (charToMorse c >>= morseToChar) == Just c)
+  prop "morse -> char -> morse" $
+    forAll morseCharGen
+    (\c -> (morseToChar c >>= charToMorse) == Just c)
+  -- prop "decodeChar QC" $
+  --   property $ \a' b' c' -> do
+  --     let a = charGen a'
+  --     prs p s `shouldParse` Paragraph [".-.."]
 
 allowedChars :: String
 allowedChars = map snd dict
