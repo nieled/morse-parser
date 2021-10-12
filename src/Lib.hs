@@ -2,7 +2,9 @@
 {-# LANGUAGE RecordWildCards   #-}
 module Lib
   ( parseMorse
+  , dict
   , decodeChar
+  , pMorseChar
   , decodeParagraph
   , Paragraph(..)
   )

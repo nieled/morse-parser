@@ -4,6 +4,8 @@ module LibSpec (spec) where
 import           Lib
 import           Test.Hspec
 import           Test.Hspec.Megaparsec (shouldParse)
+import           Test.Hspec.QuickCheck
+import           Test.QuickCheck
 import           Text.Megaparsec       (parse)
 import           Text.Megaparsec.Char  ()
 
@@ -11,7 +13,6 @@ type MorseChar = [Char]
 
 spec :: Spec
 spec = do
-  -- TODO: Test this with QuickCheck
   describe "parseMorse" $ do
     context "when there is no input" $
       it "returns an empty Paragraph" $
@@ -31,3 +32,28 @@ spec = do
     context "when the input represents an incorrect Morse char" $
       it "returns a whitespace" $
         decodeChar ".-.-.-.-" `shouldBe` ' '
+  prop "decodeChar QC" $
+    property $ \a' b' c' -> do
+      let a = charGen a'
+      prs p s `shouldParse` Paragraph [".-.."]
+
+allowedChars :: String
+allowedChars = map snd dict
+
+allowedMorseChars :: [MorseChar]
+allowedMorseChars = map fst dict
+
+charGen :: Gen Char
+charGen = elements allowedChars
+
+morseCharGen :: Gen MorseChar
+morseCharGen = elements allowedMorseChars
+
+-- propX :: Property
+-- propX =
+--   forAll morseCharGen
+--     (\mc -> do
+--       m <- parse pMorseChar "" mc
+--       let decoded = decodeChar m
+--       return $ decoded
+--     ) == mc

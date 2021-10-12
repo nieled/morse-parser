@@ -50,3 +50,4 @@ tests:
     dependencies:
     - hspec
     - morse-parser
+    - QuickCheck
